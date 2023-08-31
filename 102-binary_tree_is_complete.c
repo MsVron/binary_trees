@@ -30,7 +30,7 @@ static int enqueue(binary_tree_t ***queue, size_t *size, binary_tree_t *node)
  * Return: 1 if successful, 0 otherwise.
  */
 static int process_node(binary_tree_t *node, binary_tree_t ***queue,
-                        size_t *size, int *null_seen)
+                    size_t *size, int *null_seen)
 {
 	int left_enqueue_success, right_enqueue_success;
 
@@ -57,6 +57,7 @@ int binary_tree_is_complete(const binary_tree_t *tree)
 	if (!tree)
 		return (0);
 	queue = malloc(sizeof(binary_tree_t *));
+
 	if (!queue || !enqueue(&queue, &size, (binary_tree_t *)tree))
 		return (0);
 
