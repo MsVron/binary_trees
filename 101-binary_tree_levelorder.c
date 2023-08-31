@@ -2,6 +2,27 @@
 #include <stdlib.h>
 
 /**
+ * enqueue - Enqueues a node into a queue.
+ * @queue: Double pointer to the queue.
+ * @size: Pointer to the size of the queue.
+ * @node: Node to enqueue.
+ *
+ * Return: 1 on success, 0 on failure.
+ */
+static int enqueue(binary_tree_t ***queue, size_t *size, binary_tree_t *node)
+{
+	binary_tree_t **new_queue;
+
+	new_queue = realloc(*queue, sizeof(binary_tree_t *) * (*size + 1));
+	if (new_queue == NULL)
+		return (0);
+	new_queue[*size] = node;
+	*size += 1;
+	*queue = new_queue;
+	return (1);
+}
+
+/**
  * binary_tree_levelorder - Goes through a binary tree using level-order
  *                          traversal.
  * @tree: Pointer to the root node of the tree to traverse.
@@ -17,7 +38,6 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 	if (tree == NULL || func == NULL)
 		return;
 
-	/* Initialize the queue and enqueue the root */
 	queue = malloc(sizeof(binary_tree_t *));
 	if (queue == NULL)
 		return;
@@ -26,33 +46,22 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 
 	while (i < size)
 	{
-		/* Dequeue the front node and process it */
 		binary_tree_t *node = queue[i];
 		func(node->n);
 
-		/* Enqueue the left child if it exists */
-		if (node->left != NULL)
+		if (node->left && !enqueue(&queue, &size, node->left))
 		{
-			queue = realloc(queue, sizeof(binary_tree_t *) * (size + 1));
-			if (queue == NULL)
-				return;
-			queue[size] = node->left;
-			size++;
+			free(queue);
+			return;
 		}
 
-		/* Enqueue the right child if it exists */
-		if (node->right != NULL)
+		if (node->right && !enqueue(&queue, &size, node->right))
 		{
-			queue = realloc(queue, sizeof(binary_tree_t *) * (size + 1));
-			if (queue == NULL)
-				return;
-			queue[size] = node->right;
-			size++;
+			free(queue);
+			return;
 		}
 
 		i++;
 	}
-
-	/* Free the queue */
 	free(queue);
 }
