@@ -9,19 +9,19 @@
  *        If no common ancestor was found, return NULL.
  */
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
-                                     const binary_tree_t *second){
+                                    const binary_tree_t *second){
 	binary_tree_t *ancestor1, *ancestor2;
 
 	if (first == NULL || second == NULL)
 		return (NULL);
 
 	if (first == second)
-		return ((binary_tree_t*) first);
+		return ((binary_tree_t *) first);
 
-	ancestor1 = (binary_tree_t*) first;
+	ancestor1 = (binary_tree_t *) first;
 	while (ancestor1 != NULL)
 	{
-		ancestor2 = (binary_tree_t*) second;
+		ancestor2 = (binary_tree_t *) second;
 		while (ancestor2 != NULL)
 		{
 			if (ancestor1 == ancestor2)
