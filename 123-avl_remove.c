@@ -1,8 +1,7 @@
 #include "binary_trees.h"
 
 /**
- * find_min_value_node - find the node with the
- * minimum value greater than root.
+ * find_min_value_node - find the node with the minimum value greater than root.
  * @root: root of the tree
  *
  * Return: node with the minimum value greater than root
@@ -17,16 +16,21 @@ avl_t *find_min_value_node(avl_t *root)
 }
 
 /**
- * delete_node - deletes a node and returns new root
- * @root: current root of the subtree
- * @value: value to delete
+ * avl_remove - removes a node from an AVL tree
+ * @root: pointer to the root node of the tree for removing a node
+ * @value: value to remove in the tree
  *
- * Return: new root after deletion
+ * Return: pointer to the new root node of the tree after removing
  */
-avl_t *delete_node(avl_t *root, int value)
+avl_t *avl_remove(avl_t *root, int value)
 {
+	int balance;
 	avl_t *temp;
 
+	if (!root)
+		return (root);
+
+	/* Step 1: Perform standard BST delete */
 	if (value < root->n)
 		root->left = avl_remove(root->left, value);
 	else if (value > root->n)
@@ -52,30 +56,14 @@ avl_t *delete_node(avl_t *root, int value)
 			root->right = avl_remove(root->right, temp->n);
 		}
 	}
-	return (root);
-}
-
-/**
- * avl_remove - removes a node from an AVL tree
- * @root: pointer to the root node of the tree for removing a node
- * @value: value to remove in the tree
- *
- * Return: pointer to the new root node of the tree after removing
- */
-avl_t *avl_remove(avl_t *root, int value)
-{
-	int balance;
 
 	if (!root)
 		return (root);
 
-	root = delete_node(root, value);
-
-	if (!root)
-		return (root);
-
+	/* Step 2: Update the balance factor of the current node */
 	balance = binary_tree_balance(root);
 
+	/* Step 3: Rebalance the tree */
 	if (balance > 1 && binary_tree_balance(root->left) >= 0)
 		return (binary_tree_rotate_right(root));
 	if (balance > 1 && binary_tree_balance(root->left) < 0)
