@@ -25,6 +25,8 @@ typedef struct binary_tree_s
 	struct binary_tree_s *right;
 } binary_tree_t;
 
+typedef struct binary_tree_s avl_t;
+
 /* Binary search tree */
 typedef struct binary_tree_s bst_t;
 /* AVL Tree */
