@@ -1,7 +1,8 @@
 #include "binary_trees.h"
 
 /**
- * find_min_value_node - find the node with the minimum value greater than root.
+ * find_min_value_node - find the node with the
+ * minimum value greater than root.
  * @root: root of the tree
  *
  * Return: node with the minimum value greater than root
